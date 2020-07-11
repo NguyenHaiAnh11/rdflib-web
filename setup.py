@@ -1,5 +1,7 @@
 from setuptools import setup, find_packages
 
+__version__ = find_version('rdflib_web/__init__.py')
+
 setup(
     name = 'rdflib-web',
     version = __version__,

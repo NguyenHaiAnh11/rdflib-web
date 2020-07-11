@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+import re
 
 def find_version(filename):
     _version_re = re.compile(r'__version__ = "(.*)"')

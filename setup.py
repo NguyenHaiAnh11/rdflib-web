@@ -1,5 +1,12 @@
 from setuptools import setup, find_packages
 
+def find_version(filename):
+    _version_re = re.compile(r'__version__ = "(.*)"')
+    for line in open(filename):
+        version_match = _version_re.match(line)
+        if version_match:
+            return version_match.group(1)
+
 __version__ = find_version('rdflib_web/__init__.py')
 
 setup(

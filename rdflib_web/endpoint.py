@@ -24,16 +24,19 @@ or get the application object yourself by called :py:func:`get` function
 
 """
 try:
-    from flask import (
-        Blueprint,
-        Flask,
-        render_template,
-        request,
-        make_response,
-        Markup,
-        g,
-        url_for,
-        current_app)
+from rdflib_web import generic_endpoint
+from rdflib_web import __version__
+from rdflib_web import htmlresults
+from flask import (
+    Blueprint,
+    Flask,
+    render_template,
+    request,
+    make_response,
+    Markup,
+    g,
+    url_for,
+    current_app)
 except BaseException:
     raise Exception("Flask not found - install with 'easy_install flask'")
 
@@ -44,10 +47,9 @@ import time
 import traceback
 
 from . import mimeutils
+import logging
+logging.basicConfig(level=logging.DEBUG)
 
-from rdflib_web import htmlresults
-from rdflib_web import __version__
-from rdflib_web import generic_endpoint
 __all__ = ['endpoint', 'get', 'serve']
 
 
@@ -77,6 +79,7 @@ def query():
 
         a = request.headers.get("Accept", "xml")
 
+        logging.debug(a)
         # format="xml" # xml is default
 
         if mimeutils.HTML_MIME in a:

@@ -41,7 +41,7 @@ except BaseException:
     raise Exception("Flask not found - install with 'easy_install flask'")
 
 import rdflib
-from rdflib.serlializer import Serializer
+from rdflib.serializer import Serializer
 from rdflib import plugin
 
 import sys

@@ -84,8 +84,10 @@ def query():
 
         if mimeutils.HTML_MIME in a:
             format = "html"
-        if mimeutils.JSON_MIME in a:
+        else if mimeutils.JSON_MIME in a:
             format = "json"
+        else:
+            format = a
 
         # output parameter overrides header
         format = request.values.get("output", format)

@@ -24,19 +24,19 @@ or get the application object yourself by called :py:func:`get` function
 
 """
 try:
-from rdflib_web import generic_endpoint
-from rdflib_web import __version__
-from rdflib_web import htmlresults
-from flask import (
-    Blueprint,
-    Flask,
-    render_template,
-    request,
-    make_response,
-    Markup,
-    g,
-    url_for,
-    current_app)
+    from rdflib_web import generic_endpoint
+    from rdflib_web import __version__
+    from rdflib_web import htmlresults
+    from flask import (
+        Blueprint,
+        Flask,
+        render_template,
+        request,
+        make_response,
+        Markup,
+        g,
+        url_for,
+        current_app)
 except BaseException:
     raise Exception("Flask not found - install with 'easy_install flask'")
 

@@ -42,7 +42,7 @@ except BaseException:
 
 import rdflib
 from rdflib.serializer import Serializer
-from rdflib import Graph, plugin
+from rdflib import Graph, Dataset, plugin
 
 import sys
 import time
@@ -105,7 +105,7 @@ def query():
 
         # default-graph-uri
 
-        results = g.query(q).serialize(format=format)
+        results = g.generic.ds.query(q).serialize(format=format)
         if format == 'html':
             response = make_response(
                 render_template(

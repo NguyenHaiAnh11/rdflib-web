@@ -84,7 +84,7 @@ def query():
 
         if mimeutils.HTML_MIME in a:
             format = "html"
-        else if mimeutils.JSON_MIME in a:
+        elif mimeutils.JSON_MIME in a:
             format = "json"
         else:
             format = a

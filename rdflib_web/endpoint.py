@@ -105,7 +105,7 @@ def query():
 
         # default-graph-uri
 
-        results = g.generic.ds.query(q).serialize(format=format)
+        results = g.query(q).serialize(format=format)
         if format == 'html':
             response = make_response(
                 render_template(

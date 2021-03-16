@@ -42,7 +42,7 @@ except BaseException:
 
 import rdflib
 from rdflib.serializer import Serializer
-from rdflib import plugin
+from rdflib import Graph, plugin
 
 import sys
 import time

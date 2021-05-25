@@ -59,46 +59,6 @@ def setup(state):
 
 DEFAULT = generic_endpoint.GenericEndpoint.DEFAULT
 
-@endpoint.route("sparqlUpdate", methods=['POST'])
-def query():
-    try:
-        print(request)
-        q=request.values["query"]
-
-        a=request.headers["Accept"]
-
-        format="xml" # xml is default
-        if mimeutils.HTML_MIME in a:
-            format="html"
-        if mimeutils.JSON_MIME in a:
-            format="json"
-
-        # output parameter overrides header
-        format=request.values.get("output", format)
-
-        mimetype=mimeutils.resultformat_to_mime(format)
-
-        # force-accept parameter overrides mimetype
-        mimetype=request.values.get("force-accept", mimetype)
-
-        # pretty=None
-        # if "force-accept" in request.values:
-        #     pretty=True
-
-        # default-graph-uri
-
-        results=g.generic.ds.update(q).serialize(format=format)
-
-        if format=='html':
-            response=make_response(render_template("results.html", results=Markup(str(results,"utf-8")), q=q))
-        else:
-            response=make_response(results)
-
-        response.headers["Content-Type"]=mimetype
-        return response
-    except:
-        return "<pre>"+traceback.format_exc()+"</pre>", 400
-
 
 @endpoint.route("/sparql", methods=['GET', 'POST'])
 def query():
@@ -127,7 +87,8 @@ def query():
         #     pretty=True
 
         # default-graph-uri
-
+        if request.method == 'POST':
+            results=g.generic.ds.update(q).serialize(format=format)
         if mimetype == 'application/sparql-update':
             results=g.generic.ds.update(q).serialize(format=format)
         else:

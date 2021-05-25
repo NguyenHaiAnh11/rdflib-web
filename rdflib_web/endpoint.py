@@ -86,7 +86,11 @@ def query():
 
         # default-graph-uri
 
-        results=g.generic.ds.query(q).serialize(format=format)
+        if mimetype == 'application/sparql-query':
+            results=g.generic.ds.update(q).serialize(format=format)
+        else:
+            results=g.generic.ds.query(q).serialize(format=format)
+            
         if format=='html':
             response=make_response(render_template("results.html", results=Markup(str(results,"utf-8")), q=q))
         else:

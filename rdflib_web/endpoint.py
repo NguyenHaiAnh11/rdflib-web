@@ -62,7 +62,6 @@ DEFAULT = generic_endpoint.GenericEndpoint.DEFAULT
 @endpoint.route("/sparql", methods=['GET', 'POST'])
 def query():
     try:
-        print(request)
         q=request.values["query"]
 
         a=request.headers["Accept"]
@@ -86,8 +85,11 @@ def query():
         #     pretty=True
 
         # default-graph-uri
+        if mimetype == 'application/sparql-update':
+            results=g.generic.ds.update(q).serialize(format=format)
+        else:
+            results=g.generic.ds.query(q).serialize(format=format)
 
-        results=g.generic.ds.query(q).serialize(format=format)
         if format=='html':
             response=make_response(render_template("results.html", results=Markup(unicode(results,"utf-8")), q=q))
         else:

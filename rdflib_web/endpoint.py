@@ -65,10 +65,10 @@ def query():
     try:
         print(request.__dict__)
         # q=request.values["query"]
-        print(request.values['data'])
+        # print(request.values['data'])
 
-        q = request.values["data"]
-    
+        q = request.data
+
         print(request.data)
 
         a=request.headers["Accept"]
@@ -94,9 +94,8 @@ def query():
         # default-graph-uri
         # if request.method == 'POST':
         #     results=g.generic.ds.update(q).serialize(format=format)
-        print(g)
         if request.headers['Content-Type'] == 'application/sparql-update':
-            results=g.generic.ds.update(q).serialize(format=format)
+            g.generic.ds.update(q)
         else:
             results=g.generic.ds.query(q).serialize(format=format)
 

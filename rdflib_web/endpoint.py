@@ -87,9 +87,9 @@ def query():
         #     pretty=True
 
         # default-graph-uri
-        if request.method == 'POST':
-            results=g.generic.ds.update(q).serialize(format=format)
-        if mimetype == 'application/sparql-update':
+        # if request.method == 'POST':
+        #     results=g.generic.ds.update(q).serialize(format=format)
+        if request.headers['Content-Type'] == 'application/sparql-update':
             results=g.generic.ds.update(q).serialize(format=format)
         else:
             results=g.generic.ds.query(q).serialize(format=format)

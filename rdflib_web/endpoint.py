@@ -64,10 +64,13 @@ DEFAULT = generic_endpoint.GenericEndpoint.DEFAULT
 def query():
     try:
         print(request.__dict__)
-        # q=request.values["query"]
         # print(request.values['data'])
+        if request.headers['Content-Type'] == 'application/sparql-update':
+            q = request.data.decode("utf-8")
 
-        q = request.data
+        else: 
+            q=request.values["query"]
+
 
         print(request.data)
 

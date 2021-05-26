@@ -64,8 +64,8 @@ DEFAULT = generic_endpoint.GenericEndpoint.DEFAULT
 def query():
     try:
         print(request.__dict__)
-        # q=request.values["query"]
-        q = request.values["data"]
+        q=request.values["query"]
+        # q = request.values["data"]
 
         a=request.headers["Accept"]
 
@@ -90,6 +90,7 @@ def query():
         # default-graph-uri
         # if request.method == 'POST':
         #     results=g.generic.ds.update(q).serialize(format=format)
+        print(g)
         if request.headers['Content-Type'] == 'application/sparql-update':
             results=g.generic.ds.update(q).serialize(format=format)
         else:

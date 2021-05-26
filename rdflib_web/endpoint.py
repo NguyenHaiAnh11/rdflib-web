@@ -35,6 +35,7 @@ import sys
 import time
 import traceback
 
+from flask import jsonify
 from . import mimeutils
 
 from rdflib_web import htmlresults
@@ -99,6 +100,9 @@ def query():
         #     results=g.generic.ds.update(q).serialize(format=format)
         if request.headers['Content-Type'] == 'application/sparql-update':
             g.generic.ds.update(q)
+            resp = jsonify(success=True)
+            resp.status_code = 200
+            return resp
         else:
             results=g.generic.ds.query(q).serialize(format=format)
 

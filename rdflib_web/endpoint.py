@@ -64,8 +64,8 @@ DEFAULT = generic_endpoint.GenericEndpoint.DEFAULT
 def query():
     try:
         print(request.__dict__)
-        q=request.values["query"]
-        # q = request.values["data"]
+        # q=request.values["query"]
+        q = request.values["data"]
 
         a=request.headers["Accept"]
 

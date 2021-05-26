@@ -65,7 +65,11 @@ def query():
     try:
         print(request.__dict__)
         # q=request.values["query"]
+        print(request.values['data'])
+
         q = request.values["data"]
+    
+        print(request.data)
 
         a=request.headers["Accept"]
 

@@ -63,8 +63,9 @@ DEFAULT = generic_endpoint.GenericEndpoint.DEFAULT
 @endpoint.route("/sparql", methods=['GET', 'POST'])
 def query():
     try:
-        print(request)
-        q=request.values["query"]
+        print(request.__dict__)
+        # q=request.values["query"]
+        q = request.values["data"]
 
         a=request.headers["Accept"]
 

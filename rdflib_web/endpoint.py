@@ -35,7 +35,8 @@ import sys
 import time
 import traceback
 
-import mimeutils
+from flask import jsonify
+from . import mimeutils
 
 from rdflib_web import htmlresults
 from rdflib_web import __version__
@@ -59,11 +60,12 @@ def setup(state):
 
 DEFAULT = generic_endpoint.GenericEndpoint.DEFAULT
 
+
 @endpoint.route("/sparql", methods=['GET', 'POST'])
 def query():
     try:
-        q=request.values["query"]
-
+        print(request.__dict__)
+        
         a=request.headers["Accept"]
 
         format="xml" # xml is default
@@ -83,7 +85,19 @@ def query():
         # pretty=None
         # if "force-accept" in request.values:
         #     pretty=True
-
+        if request.method == 'POST':
+            if request.headers['Content-Type'] == 'application/sparql-update':
+                q = request.data.decode("utf-8")
+                g.generic.ds.update(q)
+                resp = jsonify(success=True)
+                resp.status_code = 200
+                return resp
+        elif request.method == 'GET':
+            q = request.values["query"]
+            results=g.generic.ds.query(q).serialize(format=format)
+        else:
+            print('UNKNOWN REQUEST')
+            
         # default-graph-uri
         if mimetype == 'application/sparql-update':
             results=g.generic.ds.update(q).serialize(format=format)
@@ -91,7 +105,7 @@ def query():
             results=g.generic.ds.query(q).serialize(format=format)
 
         if format=='html':
-            response=make_response(render_template("results.html", results=Markup(unicode(results,"utf-8")), q=q))
+            response=make_response(render_template("results.html", results=Markup(str(results,"utf-8")), q=q))
         else:
             response=make_response(results)
 
@@ -107,7 +121,7 @@ def graph_store_do(graph_identifier):
     if mimetype == "multipart/form-data":
         body = []
         force_mimetype = args.get('mimetype')
-        for _, data_file in request.files.items():
+        for _, data_file in list(request.files.items()):
             data = data_file.read()
             mt = force_mimetype or data_file.mimetype or rdflib.guess_format(data_file.filename)
             body.append({'data': data, 'mimetype': mt})
@@ -122,7 +136,7 @@ def graph_store_do(graph_identifier):
     code, headers, body = result
 
     response = make_response(body or '', code)
-    for k, v in headers.items():
+    for k, v in list(headers.items()):
         response.headers[k] = v
     return response
 
@@ -196,7 +210,7 @@ def _main(g, out, opts):
     import sys
 
     if 'x' in opts:
-        import bookdb
+        from . import bookdb
         g=bookdb.bookdb
 
     serve(g, True)

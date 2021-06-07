@@ -99,8 +99,10 @@ def query():
             print('UNKNOWN REQUEST')
             
         # default-graph-uri
-        # if request.method == 'POST':
-        #     results=g.generic.ds.update(q).serialize(format=format)
+        if mimetype == 'application/sparql-update':
+            results=g.generic.ds.update(q).serialize(format=format)
+        else:
+            results=g.generic.ds.query(q).serialize(format=format)
 
         if format=='html':
             response=make_response(render_template("results.html", results=Markup(str(results,"utf-8")), q=q))

@@ -88,6 +88,7 @@ def query():
         if request.method == 'POST':
             if request.headers['Content-Type'] == 'application/sparql-update':
                 q = request.data.decode("utf-8")
+                print(q)
                 g.generic.ds.update(q)
                 resp = jsonify(success=True)
                 resp.status_code = 200

@@ -93,16 +93,19 @@ def query():
                 resp.status_code = 200
                 return resp
         elif request.method == 'GET':
+            start = time.time()
             q = request.values["query"]
             results=g.generic.ds.query(q).serialize(format=format)
+            end = time.time()
+            print(end - start)
         else:
             print('UNKNOWN REQUEST')
             
         # default-graph-uri
-        if mimetype == 'application/sparql-update':
-            results=g.generic.ds.update(q).serialize(format=format)
-        else:
-            results=g.generic.ds.query(q).serialize(format=format)
+        # if mimetype == 'application/sparql-update':
+        #     results=g.generic.ds.update(q).serialize(format=format)
+        # else:
+        #     results=g.generic.ds.query(q).serialize(format=format)
 
         if format=='html':
             response=make_response(render_template("results.html", results=Markup(str(results,"utf-8")), q=q))

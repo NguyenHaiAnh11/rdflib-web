@@ -95,9 +95,10 @@ def query():
         elif request.method == 'GET':
             start = time.time()
             q = request.values["query"]
-            results=g.generic.ds.query(q).serialize(format=format)
-            end = time.time()
-            print(end - start)
+            results_ = g.generic.ds.query(q)
+            print('RESULTS: ', time.time() - start)
+            results = results_.serialize(format=format)
+            print('SERIEALIZE: ', time.time() - start)
         else:
             print('UNKNOWN REQUEST')
             
@@ -110,7 +111,9 @@ def query():
         if format=='html':
             response=make_response(render_template("results.html", results=Markup(str(results,"utf-8")), q=q))
         else:
+            start = time.time()
             response=make_response(results)
+            print('RESPONSE: ', time.time() - start)
 
         response.headers["Content-Type"]=mimetype
         return response

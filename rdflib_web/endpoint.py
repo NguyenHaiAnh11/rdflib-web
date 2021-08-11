@@ -76,8 +76,8 @@ def query():
 
         # output parameter overrides header
         format=request.values.get("output", format)
-        print(format)
-        
+        print('FORMAT: ', format)
+
         mimetype=mimeutils.resultformat_to_mime(format)
 
         # force-accept parameter overrides mimetype

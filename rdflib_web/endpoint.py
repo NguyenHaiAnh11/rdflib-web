@@ -98,7 +98,7 @@ def query():
             q = request.values["query"]
             results_ = g.generic.ds.query(q)
             print('RESULTS: ', time.time() - start)
-            results = results_.serialize(format='json-ld')
+            results = results_.serialize(format='json')
             print('SERIEALIZE: ', time.time() - start)
         else:
             print('UNKNOWN REQUEST')
